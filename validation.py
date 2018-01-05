@@ -16,28 +16,38 @@ def get_json(url, challenge_id):
 			response['menus'].append(menu)
 	return response
 
-def check_child(parent_id, child, response):
+def check_child(parent_id, child):
 	cur_list.append(child)
-	if(parent_id != response['menus'][child-1].get('parent_id', 0)):
+	#If where we came from isnt the same as the parent id
+	if(parent_id != menus[child-1].get('parent_id', 0)):
 		return 1
-	if(len(response['menus'][child-1]['child_ids'])==0):
+	#If the current child has no further children
+	if(len(menus[child-1]['child_ids'])==0):
 		return 0
-	loop=0
-	for new_child in response['menus'][child-1]['child_ids']:
-		loop=loop+check_child(child, new_child, response)
-	return loop
+	cycle_count=0
+	#Iterate through each new child node
+	for new_child in menus[child-1]['child_ids']:
+		cycle_count+=check_child(child, new_child)
+	return cycle_count
 
-response=get_json(url,2)
+menus=get_json(url,2)['menus']
 
 valid_menus=[]
 invalid_menus=[]
-for menu in response['menus']:
+for menu in menus:
 	if('parent_id' not in menu):
-		loop=0
+		cycle=0
 		cur_list=[]
+
 		for child in menu['child_ids']:
-			loop=loop+check_child(menu['id'], child, response)
-		print(cur_list)
+			cycle+=check_child(menu['id'], child)
+		temp_dict={"root_id":menu['id'],"children":cur_list}
+		if(cycle>0):
+			invalid_menus.append(temp_dict)
+		else:
+			valid_menus.append(temp_dict)
+final_dict={"valid_menus":valid_menus, "invalid_menus":invalid_menus}
+print(final_dict)
 
 
 
