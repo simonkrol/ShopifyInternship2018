@@ -4,11 +4,20 @@ import json
 import requests
 import copy
 
-# The rest api endpoint for this challenge and the example id.
+# The rest api endpoint for this challenge and the example id(1->2).
+# These can be used to test the Validator class
 _url='https://backend-challenge-summer-2018.herokuapp.com/challenges.json'
 _example_id = 1
 
 class Validator:
+    """Validator objects check for cycles given nodes in json format
+
+    Validator objects read and process json data from a given url and
+    example_id to check for cycles along the paths between menus and
+    their submenus. The get_validation method returns the results
+    of the validation. All other methods are private and are called 
+    upon object construction.
+    """
 
     def __init__(self, url, example_id):
         self.cur_list=[]
@@ -36,7 +45,7 @@ class Validator:
 
 
     def check_child(self, parent_id, child_id):
-        """Check for cycle in child_id branch of menus
+        """Check for cycles in child_id's branch of menus.
 
         Check if the childs parent_id matches the menu that pointed
         to it. This being false is indicative of a cycle. Is also
@@ -44,8 +53,8 @@ class Validator:
         searches through the child_id's entire branch to locate cycles.
 
         Arguments:
-        parent_id -- the id of the menu that pointed to the child
-        child_id -- the id of the child being checked
+        parent_id -- the id of the menu that pointed to the child.
+        child_id -- the id of the child being checked.
 
         Returns 1 if a cycle was found in this branch of menus. 
         Returns 0 otherwise.
