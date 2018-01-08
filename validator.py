@@ -1,3 +1,5 @@
+#Simon Krol
+#January 2018
 import math
 
 import json
@@ -102,7 +104,7 @@ class Validator:
                     validation['invalid_menus'].append(copy.deepcopy(temp_dict))
                 else:
                     validation['valid_menus'].append(copy.deepcopy(temp_dict))
-        return validation
+        return json.dumps(validation)
 
 
     def get_validation(self):
@@ -110,7 +112,9 @@ class Validator:
         return self.validation
 
 
-
+#Example Usage
+validation=Validator(_url, _example_id)
+print(validation.get_validation())
 
 
 
