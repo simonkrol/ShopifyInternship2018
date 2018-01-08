@@ -58,7 +58,7 @@ class Validator:
         parent_id -- the id of the menu that pointed to the child.
         child_id -- the id of the child being checked.
 
-        Returns 1 if a cycle was found in this branch of menus. 
+        Returns >=1 if a cycle was found in this branch of menus. 
         Returns 0 otherwise.
         """
    
