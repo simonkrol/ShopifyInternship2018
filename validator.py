@@ -9,7 +9,8 @@ import copy
 # The rest api endpoint for this challenge and the example id(1->2).
 # These can be used to test the Validator class
 _url='https://backend-challenge-summer-2018.herokuapp.com/challenges.json'
-_example_id = 1
+_example_id = 2
+
 
 class Validator:
     """Validator objects check for cycles given nodes in json format
